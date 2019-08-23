@@ -1,0 +1,25 @@
+{
+    "app": {
+        "port": 3000
+    },
+    "logger": {
+        "name": "pine-api",
+        "path": "./logs/pine-api.log"
+    },
+    "db": {
+        "connection": {
+            "username": "postgres", 
+            "password": "", 
+            "database": "pine-api", 
+            "host": "localhost",
+            "port": 5432
+        }
+    },
+    "hashing": {
+        "key": "123456"
+    },
+    "auth": {
+        "hash": "123456",
+        "subject": "AUTH"
+    }
+}

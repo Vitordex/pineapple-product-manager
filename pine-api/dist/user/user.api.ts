@@ -28,6 +28,14 @@ export class UserApi {
                 await this.controller.register(context, next);
             }
         );
+
+        this.router.post(
+            '/login',
+            this.validationMiddleware.validate(this.userSchema.schemas.login),
+            async (context: Context, next: NextFunction) => {
+                await this.controller.login(context, next);
+            }
+        );
     }
 
     public get routes(){

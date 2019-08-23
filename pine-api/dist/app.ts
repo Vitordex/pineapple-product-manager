@@ -45,7 +45,7 @@ export async function initApp(logger: Logger) {
 
     const userService = new UserService(User, hashingService);
 
-    const userController = new UserController(userService, jwtService);
+    const userController = new UserController(userService, jwtService, hashingService);
     const userSchema = new UserSchema(inputValidationMiddleware.BaseSchema);
     const userApi = new UserApi(userController, authMiddleware, inputValidationMiddleware, userSchema);
     userApi.configreRoutes();

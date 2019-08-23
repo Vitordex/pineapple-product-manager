@@ -12,7 +12,8 @@
             "program": "${workspaceFolder}\\src\\bin\\www.js",
             "outFiles": [
                 "${workspaceFolder}/src/**/*.js"
-            ]
+            ],
+            "outputCapture": "std"
         }
     ]
 }

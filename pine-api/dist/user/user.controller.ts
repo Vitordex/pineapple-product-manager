@@ -1,34 +1,26 @@
 import { Context } from "koa";
 import { NextFunction } from "connect";
-import { ApiRequestError } from "@xdgame-studio/koa-error-handle-middleware";
+import { ApiRequestError } from '@xdgame-studio/koa-error-handle-middleware';
 import { JwtService } from "../authentication/jwt.service";
 import { UserService, IUser } from "./user.service";
 import { API_STATUS } from "../utils/request-status-enum";
+import { InputValidation, InputObject } from "../input-validation/input-validation.middleware";
 
 interface IRegisterInput {
     email: string,
-    password: string,
-    name: string
+    password: string
 }
 
 export class UserController {
-    private userService: UserService;
-    private jwtService: JwtService;
-
     private controller: string = 'User';
 
-    constructor(userService: UserService, jwtService: JwtService) {
-        //, emailService: EmailService
-        this.userService = userService;
-        //this.emailService = emailService;
-        this.jwtService = jwtService;
-    }
+    constructor(private userService: UserService, private jwtService: JwtService) {}
 
     async register(context: Context, next: NextFunction) {
         const method = 'register';
-        const input: any = context.input;
+        const input: InputObject = context.input;
         const userInput = input.body as IRegisterInput;
-        const { email, password, name } = userInput;
+        const { email } = userInput;
 
         let user;
 
@@ -54,6 +46,7 @@ export class UserController {
 
         try {
             user = await this.userService.create(userInput as IUser);
+            await user.save();
         } catch (error) {
             const status = API_STATUS.INTERNAL_ERROR;
             const message = 'Error creating the user';
@@ -79,7 +72,7 @@ export class UserController {
         }
 
         context.status = API_STATUS.CREATED;
-        context.body = { token, user: user.toJSON() };
+        context.body = { token, user: user.toObject(['email', 'password']) };
 
         return next();
     }

@@ -5,8 +5,7 @@ import { HashingService } from "./hashing.service";
 export interface IUser {
     id: string,
     email: string,
-    password: string,
-    name: string
+    password: string
 }
 
 export class UserService {
@@ -22,7 +21,7 @@ export class UserService {
         if (user.password) {
             user.password = this.hashingService.createHash(user.password);
         }
-        const newUser = new this.Model(user);
+        const newUser = this.Model.build(user);
         return newUser;
     }
     

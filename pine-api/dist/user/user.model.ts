@@ -6,7 +6,8 @@ export class User extends DbModel {
     public static fields: DbAttributes = {
         id: {
             type: DbModel.Types.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         email: {
             type: DbModel.Types.STRING

@@ -13,6 +13,8 @@ import { HashingService } from './user/hashing.service';
 import { UserController } from './user/user.controller';
 import { UserApi } from './user/user.api';
 import { Options } from 'sequelize';
+import { InputValidation } from './input-validation/input-validation.middleware';
+import { UserSchema } from './user/user.schema';
 
 
 export async function initApp(logger: Logger) {
@@ -31,6 +33,8 @@ export async function initApp(logger: Logger) {
     const errorHandlerMiddleware = ErrorHandleMiddleware((params: string) => { logger.error(params); });
     app.use(errorHandlerMiddleware);
 
+    const inputValidationMiddleware = new InputValidation();
+
     const authConfig: any = config.get('auth');
     const jwtService: JwtService = new JwtService(authConfig.hash, authConfig.subject);
     const authMiddleware: AuthService = new AuthService(jwtService, User.findByPk);
@@ -42,7 +46,8 @@ export async function initApp(logger: Logger) {
     const userService = new UserService(User, hashingService);
 
     const userController = new UserController(userService, jwtService);
-    const userApi = new UserApi(userController, authMiddleware);
+    const userSchema = new UserSchema(inputValidationMiddleware.BaseSchema);
+    const userApi = new UserApi(userController, authMiddleware, inputValidationMiddleware, userSchema);
     userApi.configreRoutes();
 
     app.use(userApi.routes);

@@ -3,19 +3,18 @@ import { AuthService } from "../authentication/auth.service";
 import { UserController } from "./user.controller";
 import { Context } from "koa";
 import { NextFunction } from "connect";
+import { InputValidation } from "../input-validation/input-validation.middleware";
+import { UserSchema } from "./user.schema";
 
 export class UserApi {
     private router: Router;
 
-    private controller: UserController;
-
-    private authService: AuthService;
-
-    constructor(controller: UserController, authService: AuthService) {
-        this.controller = controller;
-
-        this.authService = authService;
-
+    constructor(
+        private controller: UserController, 
+        private authService: AuthService, 
+        private validationMiddleware: InputValidation,
+        private userSchema: UserSchema
+    ) {
         this.router = new Router({
             prefix: '/users'
         });
@@ -24,6 +23,7 @@ export class UserApi {
     public configreRoutes() {
         this.router.post(
             '/',
+            this.validationMiddleware.validate(this.userSchema.schemas.register),
             async (context: Context, next: NextFunction) => {
                 await this.controller.register(context, next);
             }

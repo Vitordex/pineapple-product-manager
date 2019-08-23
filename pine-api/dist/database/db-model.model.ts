@@ -25,4 +25,17 @@ export class DbModel extends Model {
             INTEGER: INTEGER
         }
     }
+
+    public toObject(allowedFields: Array<string> = []): object {
+        const values: any = this.get();
+
+        let converted: any = {};
+        if (allowedFields.length !== 0) {
+            allowedFields.forEach(field => {
+                converted[field] = values[field];
+            });
+        }
+
+        return converted === {} ? values : converted;
+    }
 }

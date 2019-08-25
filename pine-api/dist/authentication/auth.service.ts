@@ -6,8 +6,8 @@ import { TokenPayload } from "./token-payload";
 import { API_STATUS } from "../utils/request-status-enum";
 
 export enum TOKEN_LOCATION {
-    AUTH_HEADER,
-    QUERY
+    AUTH_HEADER = 1,
+    QUERY = 2
 }
 
 export interface User {
@@ -39,14 +39,13 @@ export class AuthService {
             const method: string = 'authenticate';
             const input: any = context.input;
             
-            let token: string;
-
+            let extractLocation: {[prop: string]: string};
             switch (this.tokenLocation) {
                 case TOKEN_LOCATION.QUERY:
-                    token = context.input.query[this.tokenPropertyName];
+                    extractLocation = context.input.query || {};
                     break;
                 case TOKEN_LOCATION.AUTH_HEADER:
-                    token = context.input.headers[this.tokenPropertyName];
+                    extractLocation = context.input.headers || {};
                     break;
                 default:
                     const status: API_STATUS = API_STATUS.INTERNAL_ERROR;
@@ -57,8 +56,11 @@ export class AuthService {
                     return;
             }
 
-            let payload: TokenPayload;
+            let token = extractLocation[this.tokenPropertyName];
+            if(this.tokenLocation === TOKEN_LOCATION.AUTH_HEADER)
+                token = token.split(' ')[1];
 
+            let payload: TokenPayload;
             try {
                 payload = (await this.jwtService.verify(token)) as TokenPayload;
             } catch (error) {
@@ -69,29 +71,8 @@ export class AuthService {
                 context.throw(status, routeError);
                 return;
             }
-
-            try {
-                const userId = payload.id;
-                const user = await this.findUser(userId);
-
-                context.state.user = user;
-            } catch (error) {
-                const status: API_STATUS = API_STATUS.INTERNAL_ERROR;
-                const message: string = 'Error finding the user';
-                const routeError = new ApiRequestError(status, message, this.name, method, input, error);
-
-                context.throw(status, routeError);
-                return;
-            }
-
-            if(!context.state.user){
-                const status: API_STATUS = API_STATUS.UNAUTHORIZED;
-                const message: string = 'User not found';
-                const routeError = new ApiRequestError(status, message, this.name, method, input);
-
-                context.throw(status, routeError);
-                return;
-            }
+            
+            context.state.user = {id: payload.id};
 
             return next();
         };

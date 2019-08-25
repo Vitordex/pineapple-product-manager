@@ -20,6 +20,10 @@
     },
     "auth": {
         "hash": "123456",
-        "subject": "AUTH"
+        "subject": "AUTH",
+        "extractFrom": "authorization"
+    },
+    "upload": {
+        "destination": "./uploads"
     }
 }

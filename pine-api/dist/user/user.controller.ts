@@ -4,7 +4,7 @@ import { ApiRequestError } from '@xdgame-studio/koa-error-handle-middleware';
 import { JwtService } from "../authentication/jwt.service";
 import { UserService, IUser } from "./user.service";
 import { API_STATUS } from "../utils/request-status-enum";
-import { InputValidation, InputObject } from "../input-validation/input-validation.middleware";
+import { InputObject } from "../input/input-validation.middleware";
 import { HashingService } from "./hashing.service";
 
 interface IRegisterInput {

@@ -2,10 +2,30 @@
 A product manager built for the Pineapple Inc.
 
 ## Table of Contents
+- [Requirements](#requirements)
+- [Before you start](#before-you-start)
 - [Database Model](#database-model)
 - [Things I would like to add](#things-i-would-like-to-add)
     * [Back-end](#back-end)
     * [Front-end](#front-end)
+
+## Requirements
+- NodeJS v10 or greater
+- Docker and Docker Compose
+- Your ports 3000 and 4200 need to be freed to listen
+
+## Before you start
+- Run `npm install` on both pine-api and pine-front folders
+- Run `npm run tsc` on both pine-api and pine-front folders
+- Run `docker-compose up -d` on pine-api folder, so postgres container may start
+
+## How to run
+### Back-end:
+Server starts at port 3000
+- Run `npm start` on pine-api folder
+### Front-end:
+Server starts at port 4200
+- Run `npm start` on pine-front folder
 
 ## Database Model
 ### User

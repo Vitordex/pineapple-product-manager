@@ -6,13 +6,18 @@
   "scripts": {
     "test-unit": "mocha --recursive test/unit/*",
     "test-integration": "mocha --recursive test/integration/*",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "start": "node ./src/bin/www.js"
+  },
+  "repository": {
+    "url": "https://github.com/Vitordex/pineapple-product-manager",
+    "type": "git"
   },
   "author": "Vitor Ribeiro Pais Del Pezzo",
   "license": "ISC",
   "dependencies": {
     "@xdgame-studio/koa-error-handle-middleware": "1.0.1",
-    "@xdgame-studio/koa-route-logger-middleware": "1.0.3",
+    "@xdgame-studio/koa-route-logger-middleware": "1.0.4",
     "@xdgame-studio/log-service": "1.0.9",
     "bluebird": "3.5.5",
     "config": "3.2.2",

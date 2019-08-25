@@ -60,3 +60,5 @@ A table with all info about the pineapple products
  - CI/CD file for the git platform I'm using (Travis - Github, GitlabCI Gitlab, Pipelines - Bitbucket, or even a CircleCI or Jenkins configuration), this facilitates development in a way we would assure some parts of our code are not broken because of updates
  - Automated tests, so it would be easier to assure things appear at the correct time and space
  - Deployment jobs, so all the deploy in different environments, would be facilitated and configured only once, to be applied many times.
+ - Add a directive to dictate wheter there is an error depending on the the value of another control (confirm password)
+ 

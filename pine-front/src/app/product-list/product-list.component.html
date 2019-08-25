@@ -1,0 +1,32 @@
+<div class="container ml-0 mt-2">
+    <h2>Products</h2>
+    <hr />
+    <table class="table">
+        <thead class="thead-dark">
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Data de criação</th>
+            <th scope="col">Detalhes</th>
+            <th scope="col">Excluir</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.createdAt | date: "dd/MM/yyyy"}}</td>
+                <td>
+                    <button (click)="showUpdate(product)" class="btn btn-hidden">
+                        <i-feather name="file-text"></i-feather>
+                    </button>
+                </td>
+                <td>
+                    <button (click)="delete(product.id)" class="btn btn-hidden">
+                        <i-feather name="trash"></i-feather>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

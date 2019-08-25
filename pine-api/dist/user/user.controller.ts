@@ -74,7 +74,7 @@ export class UserController {
             return next();
         }
 
-        context.status = API_STATUS.CREATED;
+        context.status = API_STATUS.OK;
         context.body = { token, user: user.toObject(['email']) };
 
         return next();
@@ -109,12 +109,22 @@ export class UserController {
         }
 
         const passwordHash: string = (user.toObject() as IUser).password;
+        let match: boolean;
         try {
-            this.hashService.compare(password, passwordHash);
+            match = this.hashService.compare(password, passwordHash);
         } catch (error) {
             const status = API_STATUS.INTERNAL_ERROR;
             const message = 'Error comparing the user hash';
             const routeError = new ApiRequestError(status, message, this.controller, method, input, error);
+
+            context.throw(status, routeError);
+            return next();
+        }
+
+        if(!match){
+            const status = API_STATUS.NOT_FOUND;
+            const message = 'Incorrect password';
+            const routeError = new ApiRequestError(status, message, this.controller, method, input);
 
             context.throw(status, routeError);
             return next();
@@ -135,7 +145,7 @@ export class UserController {
             return next();
         }
 
-        context.status = API_STATUS.CREATED;
+        context.status = API_STATUS.OK;
         context.body = { token, user: user.toObject(['email']) };
 
         return next();

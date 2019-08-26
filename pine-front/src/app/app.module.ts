@@ -14,12 +14,16 @@ import { ToastrModule } from 'ngx-toastr';
 import { CanActivateToken } from './guard/can-activate-token';
 import { ProductListComponent } from './product-list/product-list.component';
 import { IconsModule } from './icons/icons.module';
+import { ProductsPageComponent } from './products-page/products-page.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductsPageComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,

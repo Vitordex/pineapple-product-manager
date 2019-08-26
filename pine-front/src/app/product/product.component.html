@@ -1,0 +1,21 @@
+<div class="card px-4 py-3 mt-3">
+    <div class="row">
+        <h2>{{'Produto'}}</h2>
+        <hr />
+    </div>
+    <div class="form-group">
+        <input ngModel #name="ngModel" type="text" class="form-control" placeholder="nome" name="name">
+    </div>
+    <div class="form-group">
+        <input ngModel #image="ngModel" type="file" class="form-control" name="image">
+    </div>
+    <div class="form-group">
+        <textarea ngModel #description="ngModel" type="text" class="form-control" placeholder="descrição"
+            name="description"></textarea>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary">
+            Salvar
+        </button>
+    </div>
+</div>

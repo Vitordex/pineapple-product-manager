@@ -3,6 +3,7 @@ import { ProductService } from '../services/product.service';
 import { TokenService } from '../services/token.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ProductsPageComponent } from '../products-page/products-page.component';
 
 @Component({
   selector: 'app-product-list',
@@ -66,6 +67,10 @@ export class ProductListComponent implements OnInit {
   public resetAuth() {
     this.tokenService.removeToken();
     this.router.navigate(['auth']);
+  }
+
+  public showProduct(product: IProduct) {
+    ProductsPageComponent.instance.openProductPanel(product);
   }
 }
 

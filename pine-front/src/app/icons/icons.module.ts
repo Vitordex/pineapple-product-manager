@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { FeatherModule } from 'angular-feather';
-import { Trash, FileText } from 'angular-feather/icons';
+import { Trash, FileText, Plus } from 'angular-feather/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
-  Trash, FileText
+  Trash, FileText, Plus
 };
 
 @NgModule({

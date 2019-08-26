@@ -4,8 +4,8 @@
   "description": "An api to manage all of Pineapple products",
   "main": "./bin/www.js",
   "scripts": {
-    "test-unit": "mocha --recursive test/unit/*",
-    "test-integration": "mocha --recursive test/integration/*",
+    "test-unit": "mocha -r ts-node/register --recursive test/unit/*",
+    "test-integration": "mocha -r ts-node/register --recursive test/integration/*",
     "tsc": "tsc",
     "start": "node ./src/bin/www.js"
   },

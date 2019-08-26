@@ -145,7 +145,7 @@ export class ProductController {
                 const user: User = context.state.user;
                 const userId = (user as any).id;
 
-                product.imagePath = await this.moveThumbToPublic(userId, file as IFile);
+                product.imagePath = await this.moveThumbToPublic(product.id, file as IFile);
             } catch (error) {
                 const status = API_STATUS.INTERNAL_ERROR;
                 const message = 'Error saving the product image';
@@ -179,29 +179,37 @@ export class ProductController {
         const input: InputObject = context.input;
         const {file} = input;
         const product = input.body as IProduct;
-        
-        if(!!file){
-            try {
-                const user: User = context.state.user;
-                const userId = (user as any).id;
-
-                product.imagePath = await this.moveThumbToPublic(userId, file as IFile);
-            } catch (error) {
-                const status = API_STATUS.INTERNAL_ERROR;
-                const message = 'Error saving the product image';
-                const routeError = new ApiRequestError(status, message, this.controller, method, input, error);
-
-                context.throw(status, routeError);
-                return next();
-            }
-        }
 
         try {
             product.rate = Math.round(1 + Math.random() * 4);
 
             const productModel = await this.productService.createProduct(product);
             await productModel.save();
+
+            if(!!file){
+                try {
+                    const user: User = context.state.user;
+                    const userId = (user as any).id;
+    
+                    product.imagePath = await this.moveThumbToPublic((productModel as any).id, file as IFile);
+                    (productModel as any).imagePath = product.imagePath;
+                } catch (error) {
+                    const status = API_STATUS.INTERNAL_ERROR;
+                    const message = 'Error saving the product image';
+                    const routeError = new ApiRequestError(status, message, this.controller, method, input, error);
+    
+                    context.throw(status, routeError);
+                    return next();
+                }
+            }
+
+            await productModel.save();
         } catch (error) {
+            if(error instanceof ApiRequestError){
+                context.throw((error as ApiRequestError).Status, error);
+                return next();
+            }
+
             const status = API_STATUS.INTERNAL_ERROR;
             const message = 'Error creating the product';
             const routeError = new ApiRequestError(status, message, this.controller, method, {}, error);
@@ -215,11 +223,11 @@ export class ProductController {
         return next();
     }
 
-    private async moveThumbToPublic(userId: number, file: IFile): Promise<string>{
+    private async moveThumbToPublic(productId: number, file: IFile): Promise<string>{
         const cwd = process.cwd();
-        const publicFolder = `${cwd}/public/`;
+        const publicFolder = `${cwd}/public`;
         
-        const imagePath = `thumb-${userId}.${(file as any).mimetype.split('/')[1]}`;
+        const imagePath = `thumb-${productId}.${(file as any).mimetype.split('/')[1]}`;
         const newPath = `${publicFolder}/${imagePath}`;
         await this.fileService.moveFile(`${process.cwd()}/${(file as any).path}`, newPath);
 

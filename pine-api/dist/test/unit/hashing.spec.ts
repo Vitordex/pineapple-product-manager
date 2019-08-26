@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { HashingService } from '../../dist/user/hashing.service';
+import { HashingService } from '../../user/hashing.service';
 import crypto from "crypto"
 
 const key: string = 'teste';

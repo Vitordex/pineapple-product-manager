@@ -1,7 +1,6 @@
-import { Middleware } from "koa";
 import assert = require("assert");
 import { ApiRequestError } from "@xdgame-studio/koa-error-handle-middleware";
-import { ProductController } from "../../dist/product/product.controller";
+import { ProductController } from "../../product/product.controller";
 
 let productService: any = {};
 let fileService: any = {};
@@ -90,7 +89,7 @@ describe('Product Controller', () => {
                     toFile = to; 
                     return Promise.resolve();
                 };
-                productService.createProduct = () => ({save: () => Promise.resolve(true)});
+                productService.createProduct = () => ({id: 1, save: () => Promise.resolve()});
                 await productController.postProduct(context, () => Promise.resolve(context.status = 200));
             });
 

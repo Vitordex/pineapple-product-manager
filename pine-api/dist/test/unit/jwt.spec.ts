@@ -1,4 +1,4 @@
-import { JwtService } from "../../dist/authentication/jwt.service";
+import { JwtService } from "../../authentication/jwt.service";
 import assert from 'assert';
 import { JsonWebTokenError } from "jsonwebtoken";
 

@@ -1,5 +1,5 @@
-import { AuthService } from "../../dist/authentication/auth.service";
-import { JwtService } from "../../dist/authentication/jwt.service";
+import { AuthService } from "../../authentication/auth.service";
+import { JwtService } from "../../authentication/jwt.service";
 import { Middleware } from "koa";
 import assert = require("assert");
 import { ApiRequestError } from "@xdgame-studio/koa-error-handle-middleware";

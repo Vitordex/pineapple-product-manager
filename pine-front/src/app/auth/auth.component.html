@@ -1,0 +1,41 @@
+<div class="h-100 align-items-center row">
+    <div class="container h-50 col-md-3">
+        <div class="h-100 p-4">
+            <h2>Login</h2>
+            <hr />
+            <form #authForm="ngForm">
+                <div class="form-group">
+                    <input required ngModel #email="ngModel" name="email" id="email" class="form-control" type="email"
+                        placeholder="e-mail" />
+                    <div class="alert alert-danger" *ngIf="email.touched && !email.valid">E-mail é necessário</div>
+                </div>
+                <div class="form-group">
+                    <input required ngModel #password="ngModel" name="password" id="password" class="form-control"
+                        type="password" placeholder="senha" />
+                    <div class="alert alert-danger" *ngIf="password.touched && !password.valid">Senha é necessária</div>
+                </div>
+                <div class="form-group">
+                    <hr>
+                    <input required ngModel #confirmPass="ngModel" type="password" name="confirmPass" id="confirmPass"
+                        class="form-control" placeholder="confirmar senha">
+                    <div class="alert alert-danger" *ngIf="confirmPass.touched && !confirmPass.valid">
+                        <div *ngIf="confirmPass.errors.required">
+                            Confirmação de senha é necessária para se registrar
+                        </div>
+                        <div *ngIf="confirmPass.value !== password.value">
+                            As senhas digitadas precisam ser iguais
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center col-md-6">
+                        <button (click)="login(authForm)" class="col-md-10 btn btn-primary">Login</button>
+                    </div>
+                    <div class="text-center col-md-6">
+                        <button (click)="register(authForm)" class="col-md-10 btn btn-secondary">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

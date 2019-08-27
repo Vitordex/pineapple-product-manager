@@ -3,7 +3,7 @@ import { AuthService } from "../authentication/auth.service";
 import { UserController } from "./user.controller";
 import { Context } from "koa";
 import { NextFunction } from "connect";
-import { InputValidation } from "../input-validation/input-validation.middleware";
+import { InputValidation } from "../input/input-validation.middleware";
 import { UserSchema } from "./user.schema";
 
 export class UserApi {
@@ -26,6 +26,14 @@ export class UserApi {
             this.validationMiddleware.validate(this.userSchema.schemas.register),
             async (context: Context, next: NextFunction) => {
                 await this.controller.register(context, next);
+            }
+        );
+
+        this.router.post(
+            '/login',
+            this.validationMiddleware.validate(this.userSchema.schemas.login),
+            async (context: Context, next: NextFunction) => {
+                await this.controller.login(context, next);
             }
         );
     }

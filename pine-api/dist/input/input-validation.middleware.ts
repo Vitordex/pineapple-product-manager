@@ -69,6 +69,11 @@ export class InputValidation {
 
             const file = (context.req as any || {})['file'];
 
+            if(!!(context.req as any).body)
+                context.request.body = {
+                    ...context.request.body, ...(context.req as any).body
+                };
+
             if (this.isValidObject(context.request.body))
                 input.body = context.request.body;
             if (this.isValidObject(context.request.query))
@@ -81,9 +86,9 @@ export class InputValidation {
                 input.file = file;
 
             try {
-                await joi.validate(input, schema);
+                const verified = await joi.validate(input, schema);
 
-                context.input = input;
+                context.input = verified;
                 await next();
             } catch (error) {
                 if (!error.details) throw error;

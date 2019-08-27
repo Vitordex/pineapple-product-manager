@@ -126,3 +126,4 @@ typings/
 /pine-api/src/*
 
 # End of https://www.gitignore.io/api/node,angular
+pine-api/public/*

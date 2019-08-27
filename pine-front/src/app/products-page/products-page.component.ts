@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { IProduct } from '../product-list/product-list.component';
+import { ProductComponent } from '../product/product.component';
 
 @Component({
   selector: 'app-products-page',
@@ -13,10 +14,15 @@ export class ProductsPageComponent implements OnInit {
     ProductsPageComponent.instance = this;
   }
 
-  private showProduct: boolean = true;
+  public async openProductPanel(product: IProduct) {
+    while (!ProductComponent.instance) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    ProductComponent.instance.viewProduct({...product});
+  }
 
-  public openProductPanel(product: IProduct) {
-    this.showProduct = true;
+  public logout() {
+    ProductComponent.instance.resetAuth();
   }
 
   ngOnInit() {

@@ -11,14 +11,17 @@ import { ProductsPageComponent } from '../products-page/products-page.component'
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  private products: Array<IProduct> = [];
-
   constructor(
     private productService: ProductService,
     private tokenService: TokenService,
     private toastr: ToastrService,
     private router: Router
-  ) { }
+  ) {
+    ProductListComponent.instance = this;
+  }
+
+  public static instance: ProductListComponent;
+  private products: Array<IProduct> = [];
 
   async ngOnInit() {
     await this.refreshProducts();
@@ -56,11 +59,18 @@ export class ProductListComponent implements OnInit {
         case 401:
           this.resetAuth();
           return;
-          break;
         default:
           this.toastr.error('Houve um erro ao carregar os produtos', 'Erro');
           break;
       }
+    }
+  }
+
+  public getProduct(selector: number | string): IProduct {
+    if (typeof(selector) === 'number') {
+      return this.products.find((product) => product.id === selector);
+    } else {
+      return this.products.find((product) => product.name === selector);
     }
   }
 

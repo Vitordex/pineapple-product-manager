@@ -19,11 +19,20 @@ export class ProductService {
     return this.client.delete(`${ConfigService.apiEndPoint}/products/${id}`, {headers}).toPromise();
   }
 
-  public create(product: IProduct, token: string) {
+  public create(data: FormData, token: string) {
     const headers = {authorization: `Bearer ${token}`};
     return this.client.post(
       `${ConfigService.apiEndPoint}/products/`,
-      product,
+      data,
+      {headers}
+    ).toPromise();
+  }
+
+  public update(id: number, data: FormData, token: string) {
+    const headers = {authorization: `Bearer ${token}`};
+    return this.client.put(
+      `${ConfigService.apiEndPoint}/products/${id}`,
+      data,
       {headers}
     ).toPromise();
   }
